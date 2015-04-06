@@ -1,17 +1,62 @@
 <html>
 <head>
-  <title>Node Koa Mongo Swig seed</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <title>{% block title %}Blog{% endblock %}</title>
+  <style>
+    body {
+      padding: 80px;
+      font: 16px Helvetica, Arial;
+    }
+
+    h1 {
+      font-size: 2em;
+    }
+
+    h2 {
+      font-size: 1.2em;
+    }
+
+    #posts {
+      margin: 0;
+      padding: 0;
+    }
+
+    #posts li {
+      margin: 40px 0;
+      padding: 0;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #eee;
+      list-style: none;
+    }
+
+    #posts li:last-child {
+      border-bottom: none;
+    }
+
+    textarea {
+      width: 500px;
+      height: 300px;
+    }
+
+    input[type=text],
+    textarea {
+      border: 1px solid #eee;
+      border-top-color: #ddd;
+      border-left-color: #ddd;
+      border-radius: 2px;
+      padding: 15px;
+      font-size: .8em;
+    }
+
+    input[type=text] {
+      width: 500px;
+    }
+  </style>
 </head>
 <body>
-  <div class="container" style="width: 600px">
+  <section id="content">
     {% block content %}
+      <p>Missing content!</p>
     {% endblock %}
-  </div>
-  <div class="row">
-    <footer class="col-xs-12 footer" style="text-align: center; bottom: 0px; margin: 1.2em;">
-      <a href="https://www.github.com/lambtron/node-koa-mongo-swig-seed">Github</a> | Made with <span class="glyphicon glyphicon-heart" style="color: #EE2C2C"></span> by <a href="http://www.twitter.com/andyjiang">@andyjiang</a>
-    </footer>
-  </div>
+  </section>
 </body>
 </html>
