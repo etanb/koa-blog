@@ -37,8 +37,8 @@ app.use(route.get('/post/new', routes.add));
 app.use(route.get('/post/:id', routes.show));
 app.use(route.post('/post', routes.create));
 app.use(route.get('/post/delete/:id', routes.remove));
-app.use(route.get('/post/edit/:id', edit));
-app.use(route.post('/post/update', update));
+app.use(route.get('/post/edit/:id', routes.edit));
+app.use(route.post('/post/update', routes.update));
 
 /**
  * Listen on PORT.

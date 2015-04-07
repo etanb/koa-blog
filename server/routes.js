@@ -37,6 +37,7 @@ Routes.create = function *create() {
   }
   var id = posts.push(post) - 1;
   post.created_at = new Date;
+  post.updated_on = new Date;
   post.id = id;
   this.redirect('/');
 }
@@ -48,8 +49,11 @@ Routes.edit = function *edit(id) {
 }
 
 Routes.update = function *update() {
-    var post = yield parse(this);
-    var index = post.id;
+    var post = {
+      title: this.request.body.title,
+      body: this.request.body.body
+    }
+    var index = this.request.body.id;
     posts[index].title = post.title;
     posts[index].body = post.body;
     posts[index].updated_on = new Date;

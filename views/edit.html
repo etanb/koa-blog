@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+  <h1>Edit a Post</h1>
+  <p>Edit an old post.</p>
+  <form action="/post/update" method="post">
+    <p><input type="hidden" value="{{ post.id }}" name="id"></p>
+    <p><input type="text" value="{{ post.title }}"  name="name"></p>
+    <p><input type="text" value="{{ post.body }}"  name="description"></p>
+    <p><input type="submit" value="Update"></p>
+  </form>
+{% endblock %}
