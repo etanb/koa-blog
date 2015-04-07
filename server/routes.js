@@ -5,7 +5,6 @@
 
 var render = require('../lib/render');
 var Models = require('../lib/models');
-var Tweet = require('./tweet');
 
 // Database
 
@@ -40,6 +39,33 @@ Routes.create = function *create() {
   post.created_at = new Date;
   post.id = id;
   this.redirect('/');
+}
+
+Routes.edit = function *edit(id) {
+    var post = posts[id];
+    if (!post) this.throw(404, 'invalid post id');
+    this.body = yield render('edit', { post: post });
+}
+
+Routes.update = function *update() {
+    var post = yield parse(this);
+    var index = post.id;
+    posts[index].title = post.title;
+    posts[index].body = post.body;
+    posts[index].updated_on = new Date;
+    this.redirect('/');
+}
+
+Routes.remove = function *remove(id) {
+    var post = posts[id];
+    if (!post) this.throw(404, 'invalid post id');
+   posts.splice(id,1);
+    //Changing the Id for working with index
+    for (var i = 0; i < posts.length; i++)
+    {
+        posts[i].id = i;
+    }
+    this.redirect('/');
 }
 
 /**
