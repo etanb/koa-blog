@@ -22,7 +22,13 @@ clean:
 
 # Run the server in debug mode.
 debug: node_modules
-	@node debug --harmony bin/server --development
+	@node --debug --harmony bin/server --development
+
+
+# Run the server with node inspector for Chrome debugger
+
+browser:
+	node-inspector
 
 # Run the server.
 run: node_modules
