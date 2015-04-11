@@ -1,14 +1,21 @@
 
+
+// Database Connect
+
+var MongoClient = require('mongodb').MongoClient;
+
+
+
+
 /**
  * Module dependencies.
  */
 
 var render = require('../lib/render');
-var Models = require('../lib/models');
+var posts = require('../models/posts_model');
+var index = 1;
 
 // Database
-
-var posts = [];
 
 /**
  * Define `Routes`.
@@ -31,14 +38,43 @@ Routes.show = function *show(id) {
 }
 
 Routes.create = function *create() {
-  var post = {
-  	title: this.request.body.title,
-  	body: this.request.body.body
-  }
-  var id = posts.push(post) - 1;
-  post.created_at = new Date;
-  post.updated_on = new Date;
-  post.id = id;
+  // var post = {
+  // 	title: this.request.body.title,
+  // 	body: this.request.body.body
+  // }
+  // var id = posts.push(post) - 1;
+  // post.created_at = new Date;
+  // post.updated_on = new Date;
+  // post.id = id;
+
+  // MongoClient.connect("mongodb://localhost/postsDb", function(err, db) {
+  //   if(!err) {
+  //     console.log("We are connected");
+
+  //     var collection = db.collection('posts');
+  //     console.log(this.request.body)
+  //     var post = {
+                     // _id: index,
+                     // created_at: new Date,
+                     // updated_on: new Date,
+                     // title: this.request.body.title,
+                     // body: this.request.body.body
+  //                 }
+
+  //     collection.insert(post, {w:1}, function(err, result) {});
+  //   }
+  // });
+
+
+  yield posts.insert({
+      _id: index,
+      created_at: new Date,
+      updated_on: new Date,
+      title: this.request.body.title,
+      body: this.request.body.body
+    });
+
+  index++
   this.redirect('/');
 }
 
