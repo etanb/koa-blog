@@ -2,7 +2,7 @@
 
 // Database Connect
 
-var MongoClient = require('mongodb').MongoClient;
+// var MongoClient = require('mongodb').MongoClient;
 
 
 
@@ -13,7 +13,8 @@ var MongoClient = require('mongodb').MongoClient;
 
 var render = require('../lib/render');
 var posts = require('../models/posts_model');
-var index = 1;
+var postCounter;
+var listPosts;
 
 // Database
 
@@ -46,7 +47,6 @@ Routes.create = function *create() {
   // post.created_at = new Date;
   // post.updated_on = new Date;
   // post.id = id;
-
   // MongoClient.connect("mongodb://localhost/postsDb", function(err, db) {
   //   if(!err) {
   //     console.log("We are connected");
@@ -65,16 +65,25 @@ Routes.create = function *create() {
   //   }
   // });
 
+  posts.findOne( { tracker: "post_counter" }, function (e, counter) {
+    return postCounter = counter.counter
+  })
 
-  yield posts.insert({
-      _id: index,
+  console.log(postCounter)
+
+  var newPost = {
+      _id: postCounter,
       created_at: new Date,
       updated_on: new Date,
       title: this.request.body.title,
       body: this.request.body.body
-    });
+    }
 
-  index++
+
+  yield posts.insert(newPost);
+
+  yield posts.findAndModify({ query: {tracker: "post_counter"}, update: {tracker: "post_counter", counter: postCounter++} })
+
   this.redirect('/');
 }
 
