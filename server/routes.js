@@ -1,10 +1,15 @@
+// To create the initial counter
 
+// var mongo = process.env.MONGOHQ_URL || 'mongodb://localhost/postsDb'; // REPLACE THIS
+// var wrap = require('co-monk');
+// var monk = require('monk');
+// var db = monk(mongo);
+// var posts = wrap(db.get('posts'));
 
-// Database Connect
-
-// var MongoClient = require('mongodb').MongoClient;
-
-
+// posts.insert({
+//   tracker: "post_counter",
+//   counter: 0
+// })
 
 
 /**
@@ -13,10 +18,6 @@
 
 var render = require('../lib/render');
 var posts = require('../models/posts_model');
-var postCounter;
-var listPosts;
-
-// Database
 
 /**
  * Define `Routes`.
@@ -25,7 +26,9 @@ var listPosts;
 var Routes = {};
 
 Routes.list = function *list() {
-  this.body = yield render('list', { posts: posts });
+  var listPosts = yield posts.find({ type: "post" });
+
+  this.body = yield render('list', { posts: listPosts });
 }
 
 Routes.add = function *add() {
@@ -33,62 +36,35 @@ Routes.add = function *add() {
 }
 
 Routes.show = function *show(id) {
-  var post = posts[id];
+  var post = yield posts.findOne({ _id: id });
+  console.log(post)
   if (!post) this.throw(404, 'invalid post id');
   this.body = yield render('show', { post: post });
 }
 
 Routes.create = function *create() {
-  // var post = {
-  // 	title: this.request.body.title,
-  // 	body: this.request.body.body
-  // }
-  // var id = posts.push(post) - 1;
-  // post.created_at = new Date;
-  // post.updated_on = new Date;
-  // post.id = id;
-  // MongoClient.connect("mongodb://localhost/postsDb", function(err, db) {
-  //   if(!err) {
-  //     console.log("We are connected");
+  var post = yield posts.findOne({ tracker: "post_counter" });
 
-  //     var collection = db.collection('posts');
-  //     console.log(this.request.body)
-  //     var post = {
-                     // _id: index,
-                     // created_at: new Date,
-                     // updated_on: new Date,
-                     // title: this.request.body.title,
-                     // body: this.request.body.body
-  //                 }
-
-  //     collection.insert(post, {w:1}, function(err, result) {});
-  //   }
-  // });
-
-  posts.findOne( { tracker: "post_counter" }, function (e, counter) {
-    return postCounter = counter.counter
-  })
-
-  console.log(postCounter)
+  var post_counter = post.counter;
 
   var newPost = {
-      _id: postCounter,
-      created_at: new Date,
-      updated_on: new Date,
-      title: this.request.body.title,
-      body: this.request.body.body
-    }
-
+    _id: post_counter,
+    created_at: new Date,
+    updated_on: new Date,
+    title: this.request.body.title,
+    body: this.request.body.body,
+    type: "post"
+  }
 
   yield posts.insert(newPost);
 
-  yield posts.findAndModify({ query: {tracker: "post_counter"}, update: {tracker: "post_counter", counter: postCounter++} })
+  yield posts.findAndModify({ query: {tracker: "post_counter"}, update: {tracker: "post_counter", counter: post_counter + 1} })
 
   this.redirect('/');
 }
 
 Routes.edit = function *edit(id) {
-    var post = posts[id];
+    var post = yield posts.findOne({ _id: id });
     if (!post) this.throw(404, 'invalid post id');
     this.body = yield render('edit', { post: post });
 }
