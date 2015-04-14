@@ -1,6 +1,6 @@
 // To create the initial counter
 
-// var mongo = process.env.MONGOHQ_URL || 'mongodb://localhost/postsDb'; // REPLACE THIS
+// var mongo = process.env.MONGOHQ_URL || 'mongodb://localhost/postsDb';
 // var wrap = require('co-monk');
 // var monk = require('monk');
 // var db = monk(mongo);
@@ -36,7 +36,8 @@ Routes.add = function *add() {
 }
 
 Routes.show = function *show(id) {
-  var post = yield posts.findOne({ _id: id });
+  var id = parseInt(id)
+  var post = yield posts.findOne({ id: id });
   console.log(post)
   if (!post) this.throw(404, 'invalid post id');
   this.body = yield render('show', { post: post });
@@ -44,11 +45,10 @@ Routes.show = function *show(id) {
 
 Routes.create = function *create() {
   var post = yield posts.findOne({ tracker: "post_counter" });
-
   var post_counter = post.counter;
 
   var newPost = {
-    _id: post_counter,
+    id: post_counter,
     created_at: new Date,
     updated_on: new Date,
     title: this.request.body.title,
@@ -64,33 +64,37 @@ Routes.create = function *create() {
 }
 
 Routes.edit = function *edit(id) {
-    var post = yield posts.findOne({ _id: id });
-    if (!post) this.throw(404, 'invalid post id');
-    this.body = yield render('edit', { post: post });
+  var id = parseInt(id)
+  var post = yield posts.findOne({ id: id });
+  if (!post) this.throw(404, 'invalid post id');
+  this.body = yield render('edit', { post: post });
 }
 
 Routes.update = function *update() {
-    var post = {
-      title: this.request.body.title,
-      body: this.request.body.body
-    }
-    var index = this.request.body.id;
-    posts[index].title = post.title;
-    posts[index].body = post.body;
-    posts[index].updated_on = new Date;
-    this.redirect('/');
+
+  var id = parseInt(this.request.body.id)
+
+  var updatedPost = {
+    id: id,
+    updated_on: new Date,
+    created_at: this.request.body.created_at,
+    title: this.request.body.title,
+    body: this.request.body.body,
+    type: "post"
+  }
+
+  yield posts.findAndModify({ query: {id: id}, update: updatedPost })
+
+  this.redirect('/');
 }
 
 Routes.remove = function *remove(id) {
-    var post = posts[id];
-    if (!post) this.throw(404, 'invalid post id');
-   posts.splice(id,1);
-    //Changing the Id for working with index
-    for (var i = 0; i < posts.length; i++)
-    {
-        posts[i].id = i;
-    }
-    this.redirect('/');
+  var id = parseInt(id)
+  var post = yield posts.remove({ id: id });
+
+  if (!post) this.throw(404, 'invalid post id');
+
+  this.redirect('/');
 }
 
 /**

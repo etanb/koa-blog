@@ -7,6 +7,7 @@
   <p>Edit an old post.</p>
   <form action="/post/update" method="post">
     <p><input type="hidden" value="{{ post.id }}" name="id"></p>
+    <p><input type="hidden" value="{{ post.created_at }}" name="id"></p>
     <p><input type="text" value="{{ post.title }}"  name="title"></p>
     <p><input type="text" value="{{ post.body }}"  name="body"></p>
     <p><input type="submit" value="Update"></p>
