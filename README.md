@@ -2,13 +2,13 @@ Based on Node Koa Mongo Swig Seed by Andy Jiang
 =============
 
 
-TODO:
+TODO (in priority order) :
 
-Hook up MongoDB
-
-Change front-end to responsive / UI focused design
+Add WYSIWYG functionality (maybe QuillJS http://quilljs.com/)
 
 Add Addmin features
+
+Change front-end to responsive / UI focused design
 
 
 ## License (MIT)
