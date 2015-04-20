@@ -5,9 +5,18 @@
 {% block content %}
   <h1>New Post</h1>
   <p>Create a new post.</p>
+  <br />
+  <div id="toolbar">
+    <button class="ql-bold">Bold</button>
+    <button class="ql-italic">Italic</button>
+  </div>
+  <br />
   <form action="/post" method="post">
     <p><input id="post-title" type="text" placeholder="Title" name="title"></p>
-    <p><textarea id="post-body" placeholder="Contents" name="body"></textarea></p>
-    <p><input type="submit" value="Create"></p>
+    <p><div class="quill-editor"></div></p>
+    <p><input style="display:none;" id="post-body" type="text" name="body"></input></p>
+    <p><input id="post-submit" type="submit" value="Create"></p>
   </form>
+
+  
 {% endblock %}
