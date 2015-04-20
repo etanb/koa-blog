@@ -4,7 +4,9 @@
 
 {% block content %}
   <h1>{{ post.title }}</h1>
-  <p>{{ post.body }}</p>
+  <div id="rendered-body">
+    {{ post.body|safe }}
+  </div>
   <p><i>Created On: </i> {{ post.created_on.toDateString() }}</p>
   <p><i>Last Updated On: </i> {{ post.updated_on.toDateString() }}</p>
   <p><a href="/">Back to List</a></p>
