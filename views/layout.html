@@ -11118,21 +11118,28 @@
   });
   </script>
   <script>
-    var editor = new Quill('.quill-editor', {
-      theme: 'snow'
-    });
-    editor.addModule('toolbar', { container: '#toolbar' });
 
-    var postSubmitAction = document.getElementById("post-submit")
+    if (document.getElementsByClassName("quill-editor").length != 0) {
+      var editor = new Quill('.quill-editor', {
+        theme: 'snow'
+      });
+      editor.addModule('toolbar', { container: '#toolbar' });
 
-    postSubmitAction.addEventListener("click", function() {
-      var bodyEditorText = editor.getHTML()
-      var bodyPostText = document.getElementById("post-body")
+      var postSubmitAction = document.getElementsByClassName("post-submit")[0]
 
-      bodyPostText.value = bodyEditorText
+      postSubmitAction.addEventListener("click", function() {
+        var bodyEditorText = editor.getHTML()
+        var bodyEditorObject = editor.getContents()
+        
+        var bodyPostText = document.getElementsByClassName("post-body")[0]
+        var bodyPostJSON = document.getElementsByClassName("post-body-JSON")[0]
 
-    })
+        bodyPostText.value = bodyEditorText
+        bodyPostJSON.value = JSON.stringify(bodyEditorObject)
+      })
+    }
 
+    
   </script> 
 </body>
 </html>

@@ -9,13 +9,21 @@
   <div id="toolbar">
     <button class="ql-bold">Bold</button>
     <button class="ql-italic">Italic</button>
+    <button class="ql-strike">Strikethrough</button>
+    <button class="ql-underline">Underline</button>
+    <button class="ql-link">Link</button>
+    <button class="ql-background">Background</button>
+    <button class="ql-color">Color</button>
+    <button class="ql-font">Font</button>
+    <button class="ql-size">Size</button>
   </div>
   <br />
   <form action="/post" method="post">
     <p><input id="post-title" type="text" placeholder="Title" name="title"></p>
     <p><div class="quill-editor"></div></p>
-    <p><input style="display:none;" id="post-body" type="text" name="body"></input></p>
-    <p><input id="post-submit" type="submit" value="Create"></p>
+    <p><input style="display:none;" class="post-body" type="text" name="body"></input></p>
+    <p><input style="display:none;" class="post-body-JSON" type="text" name="bodyJSON"></input></p>
+    <p><input class="post-submit" type="submit" value="Create"></p>
   </form>
 
   

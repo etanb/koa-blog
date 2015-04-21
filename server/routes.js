@@ -1,15 +1,15 @@
 // To create the initial counter
 
-// var mongo = process.env.MONGOHQ_URL || 'mongodb://localhost/postsDb';
-// var wrap = require('co-monk');
-// var monk = require('monk');
-// var db = monk(mongo);
-// var posts = wrap(db.get('posts'));
+var mongo = process.env.MONGOHQ_URL || 'mongodb://localhost/postsDb';
+var wrap = require('co-monk');
+var monk = require('monk');
+var db = monk(mongo);
+var posts = wrap(db.get('posts'));
 
-// posts.insert({
-//   tracker: "post_counter",
-//   counter: 0
-// })
+posts.insert({
+  tracker: "post_counter",
+  counter: 0
+})
 
 
 /**
@@ -53,6 +53,7 @@ Routes.create = function *create() {
     updated_on: new Date,
     title: this.request.body.title,
     body: this.request.body.body,
+    bodyJSON: this.request.body.bodyJSON,
     type: "post"
   }
 
@@ -66,12 +67,12 @@ Routes.create = function *create() {
 Routes.edit = function *edit(id) {
   var id = parseInt(id)
   var post = yield posts.findOne({ id: id });
+  console.log(post)
   if (!post) this.throw(404, 'invalid post id');
   this.body = yield render('edit', { post: post });
 }
 
 Routes.update = function *update() {
-
   var id = parseInt(this.request.body.id)
 
   var updatedPost = {
@@ -80,6 +81,7 @@ Routes.update = function *update() {
     created_at: this.request.body.created_at,
     title: this.request.body.title,
     body: this.request.body.body,
+    bodyJSON: this.request.body.bodyJSON,
     type: "post"
   }
 

@@ -5,11 +5,36 @@
 {% block content %}
   <h1>Edit a Post</h1>
   <p>Edit an old post.</p>
+  <br />
+  <div id="toolbar">
+    <button class="ql-bold">Bold</button>
+    <button class="ql-italic">Italic</button>
+    <button class="ql-strike">Strikethrough</button>
+    <button class="ql-underline">Underline</button>
+    <button class="ql-link">Link</button>
+    <button class="ql-background">Background</button>
+    <button class="ql-color">Color</button>
+    <button class="ql-font">Font</button>
+    <button class="ql-size">Size</button>
+  </div>
+  <br />
   <form action="/post/update" method="post">
     <p><input type="hidden" value="{{ post.id }}" name="id"></p>
     <p><input type="hidden" value="{{ post.created_at }}" name="id"></p>
     <p><input type="text" value="{{ post.title }}"  name="title"></p>
-    <p><input type="text" value="{{ post.body }}"  name="body"></p>
-    <p><input type="submit" value="Update"></p>
+    <p><div id="quill-editor-update" class="quill-editor"></div></p>
+    <p><input style="display:none;" class="post-body" type="text" name="body"></input></p>
+    <p><input style="display:none;" class="post-body-JSON" type="text" name="bodyJSON"></input></p>
+    <p><input class="post-submit" type="submit" value="Update"></p>
   </form>
+
+  <script>
+  	if (document.getElementById("quill-editor-update") != null) {
+  	  window.onload = function() {
+  	    var bodyPostObject = {% autoescape false %}{{ post.bodyJSON }}{% endautoescape %}
+
+  	    editor.updateContents(bodyPostObject)
+  	  }
+  	}
+  </script>
 {% endblock %}
