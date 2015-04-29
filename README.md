@@ -4,8 +4,6 @@ Based on Node Koa Mongo Swig Seed by Andy Jiang
 
 TODO (in priority order) :
 
-Add WYSIWYG functionality (maybe QuillJS http://quilljs.com/)
-
 Add Admin features
 
 Change front-end to responsive / UI focused design

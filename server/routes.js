@@ -1,15 +1,15 @@
-// To create the initial counter
+// // To create the initial counter
 
-var mongo = process.env.MONGOHQ_URL || 'mongodb://localhost/postsDb';
-var wrap = require('co-monk');
-var monk = require('monk');
-var db = monk(mongo);
-var posts = wrap(db.get('posts'));
+// var mongo = process.env.MONGOHQ_URL || 'mongodb://localhost/postsDb';
+// var wrap = require('co-monk');
+// var monk = require('monk');
+// var db = monk(mongo);
+// var posts = wrap(db.get('posts'));
 
-posts.insert({
-  tracker: "post_counter",
-  counter: 0
-})
+// posts.insert({
+//   tracker: "post_counter",
+//   counter: 0
+// })
 
 
 /**

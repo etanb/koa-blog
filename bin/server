@@ -10,12 +10,15 @@ var logger = require('koa-logger');
 var route = require('koa-route');
 var koa = require('koa');
 var parse = require('co-body');
+var serve = require('koa-static');
 
 /**
  * Expose `app`.
  */
 
 module.exports = app = koa();
+
+app.use(serve('views'));
 module.exports = route
 module.exports = bodyParser
 
@@ -25,6 +28,8 @@ module.exports = bodyParser
 
 app.use(logger());
 app.use(bodyParser());
+
+// Static serving of files
 
 /**
  * Configure routes.
